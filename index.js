@@ -12,8 +12,7 @@ const ONESIGNAL_API_KEY = process.env.ONESIGNAL_API_KEY;
 app.post("/send-friend-request", async (req, res) => {
   try {
     const { oneSignalId, senderName } = req.body;
-    console.log("APP_ID =", ONESIGNAL_APP_ID);
-    console.log("API_KEY =", ONESIGNAL_API_KEY?.substring(0, 20));
+    
     
 
     const response = await axios.post(
@@ -32,9 +31,9 @@ app.post("/send-friend-request", async (req, res) => {
       },
       {
         headers: {
-          Authorization: `Key ${ONESIGNAL_API_KEY}`,
-          "Content-Type": "application/json",
-        },
+  Authorization: `Bearer ${ONESIGNAL_API_KEY}`,
+  "Content-Type": "application/json",
+},
       }
     );
 
