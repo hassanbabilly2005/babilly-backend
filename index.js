@@ -46,6 +46,41 @@ app.post("/send-friend-request", async (req, res) => {
   }
 });
 
+app.post("/send-follow-accepted", async (req, res) => {
+  try {
+    const { oneSignalId, accepterName } = req.body;
+
+    const response = await axios.post(
+      "https://api.onesignal.com/notifications",
+      {
+        app_id: ONESIGNAL_APP_ID,
+        include_subscription_ids: [oneSignalId],
+
+        headings: {
+          en: "تم قبول طلب الصداقة",
+        },
+
+        contents: {
+          en: `${accepterName} وافق على طلب الصداقة الخاص بك`,
+        },
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${ONESIGNAL_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    res.json(response.data);
+  } catch (e) {
+    console.error(e.response?.data || e);
+    res.status(500).json({
+      error: "failed",
+    });
+  }
+});
+
 app.listen(3000, () => {
   console.log("Server running on port 3000");
 });
