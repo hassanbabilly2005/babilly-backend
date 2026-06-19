@@ -83,9 +83,11 @@ app.post("/send-chat-message", async (req, res) => {
         contents: { en: messageText }, // نص الرسالة يظهر كمحتوى
         
         // --- الخصائص اللازمة لظهور الإشعار في أعلى الشاشة (Heads-up) ---
-        android_accent_color: "FF0000FF", // اختياري: لون الأيقونة
+         // اختياري: لون الأيقونة
         priority: 10,                      // الأولوية القصوى في OneSignal (تساوي High/Max)
-        android_visibility: 1,            // إظهار المحتوى بالكامل على شاشة القفل
+        android_visibility: 1,  
+        
+        android_channel_id: "messages",// إظهار المحتوى بالكامل على شاشة القفل
         
         // لتجميع الإشعارات من نفس الشخص بدل تكرارها
         android_group: `chat_${chatId}`, 
