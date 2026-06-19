@@ -37,6 +37,8 @@ app.post("/send-friend-request", async (req, res) => {
 });
 
 // 2. مسار قبول الصداقة (كما هو)
+
+
 app.post("/send-follow-accepted", async (req, res) => {
   try {
     const { oneSignalId, accepterName } = req.body;
@@ -64,6 +66,8 @@ app.post("/send-follow-accepted", async (req, res) => {
 });
 
 // 3. المسار الجديد المخصص لرسائل الدردشة (مع حل مشكلة الظهور في الأعلى)
+
+console.log("Sending chat notification...");
 app.post("/send-chat-message", async (req, res) => {
   try {
     // نحتاج معرفة الـ chatId لنقل المستخدم إليه عند الضغط، ونص الرسالة واسم المرسل
@@ -110,6 +114,7 @@ app.post("/send-chat-message", async (req, res) => {
     res.status(500).json({ error: "failed" });
   }
 });
+
 
 app.listen(3000, () => {
   console.log("Server running on port 3000");
