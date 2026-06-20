@@ -87,7 +87,7 @@ app.post("/send-chat-message", async (req, res) => {
         priority: 10,                      // الأولوية القصوى في OneSignal (تساوي High/Max)
         android_visibility: 1,  
         
-        android_channel_id: "messages",// إظهار المحتوى بالكامل على شاشة القفل
+        android_channel_id: "6d803204-6f15-4850-84e7-909ed4f2d99f",// إظهار المحتوى بالكامل على شاشة القفل
         
         // لتجميع الإشعارات من نفس الشخص بدل تكرارها
         android_group: `chat_${chatId}`, 
