@@ -116,7 +116,55 @@ app.post("/send-chat-message", async (req, res) => {
     res.status(500).json({ error: "failed" });
   }
 });
+app.post("/incoming-call", async (req, res) => {
+  try {
+    const {
+      oneSignalId,
+      callerName,
+      callerImage,
+      callId,
+      callerUid
+    } = req.body;
 
+    const response = await axios.post(
+      "https://api.onesignal.com/notifications",
+      {
+        app_id: ONESIGNAL_APP_ID,
+        include_subscription_ids: [oneSignalId],
+
+        headings: {
+          en: "Incoming Call"
+        },
+
+        contents: {
+          en: `${callerName} is calling you`
+        },
+
+        priority: 10,
+        android_visibility: 1,
+
+        data: {
+          type: "INCOMING_CALL",
+          callId: callId,
+          callerUid: callerUid,
+          callerName: callerName,
+          callerImage: callerImage
+        }
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${ONESIGNAL_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    res.json(response.data);
+  } catch (e) {
+    console.error(e.response?.data || e);
+    res.status(500).json({ error: "failed" });
+  }
+});
 
 app.listen(3000, () => {
   console.log("Server running on port 3000");
