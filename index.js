@@ -1,7 +1,7 @@
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
-
+const { getMessaging } = require("./firebaseAdmin");
 const app = express();
 
 app.use(cors());
@@ -163,6 +163,46 @@ app.post("/incoming-call", async (req, res) => {
   } catch (e) {
     console.error(e.response?.data || e);
     res.status(500).json({ error: "failed" });
+  }
+});
+
+app.post("/incoming-call-fcm", async (req, res) => {
+  try {
+    const {
+      fcmToken,
+      callId,
+      callerUid,
+      callerName,
+      callerImage,
+    } = req.body;
+
+    const messageId = await getMessaging().send({
+      token: fcmToken,
+
+      data: {
+        type: "INCOMING_CALL",
+        callId: String(callId),
+        callerUid: String(callerUid),
+        callerName: String(callerName),
+        callerImage: String(callerImage || ""),
+      },
+
+      android: {
+        priority: "high",
+      },
+    });
+
+    res.json({
+      success: true,
+      messageId,
+    });
+  } catch (e) {
+    console.error(e);
+
+    res.status(500).json({
+      success: false,
+      error: e.message,
+    });
   }
 });
 
