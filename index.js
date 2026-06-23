@@ -167,6 +167,7 @@ app.post("/incoming-call", async (req, res) => {
 });
 
 app.post("/incoming-call-fcm", async (req, res) => {
+  console.log("INCOMING CALL FCM", req.body);
   try {
     const {
       fcmToken,
